@@ -60,7 +60,7 @@ export function Footer() {
 
             <div className="max-w-[1400px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[11px] font-sans font-medium uppercase tracking-widest text-gray-400">
                 <p>© 2026 VYBE THREADS // ALL RIGHTS RESERVED</p>
-                <p className="mt-4 md:mt-0">DESIGNED BY VYBE THREADS TEAM</p>
+                <p className="mt-4 md:mt-0">DESIGNED BY PROJECTSSUITE</p>
             </div>
         </footer>
     )

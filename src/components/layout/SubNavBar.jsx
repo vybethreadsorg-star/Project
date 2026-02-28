@@ -111,10 +111,12 @@ export function SubNavBar() {
         }).catch(() => { setLoading(false) })
     }, [user])
 
-    // Hide on checkout page (after all hooks)
-    if (location.pathname === '/checkout') return null
+    // Hide on checkout page or shop page (after all hooks)
+    if (location.pathname === '/checkout' || location.pathname === '/shop') return null
     if (!user || loading) return null
     if (isScrolled) return null
+
+    const isShop = location.pathname === '/shop'
 
     // ── Smart display priority logic ────────────────────────────────────────
     // 1️⃣ Active order (pending/confirmed/shipped) → show ORDER tracker
@@ -141,7 +143,7 @@ export function SubNavBar() {
         const moreCount = (activeOrder.order_items?.length || 0) - 2
 
         return (
-            <BarWrapper>
+            <BarWrapper compact={isShop}>
                 {/* Label */}
                 <div className="flex-shrink-0 mr-4 hidden sm:block">
                     <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest">Order Update</p>
@@ -197,7 +199,7 @@ export function SubNavBar() {
         const cartStep = savedAddresses.length > 0 ? 1 : 0
 
         return (
-            <BarWrapper>
+            <BarWrapper compact={isShop}>
                 {/* Label */}
                 <div className="flex-shrink-0 mr-4 hidden sm:block">
                     <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest">Your Bag</p>
@@ -237,7 +239,7 @@ export function SubNavBar() {
     if (showCartAfterDelivery) {
         const cartStep = savedAddresses.length > 0 ? 1 : 0
         return (
-            <BarWrapper>
+            <BarWrapper compact={isShop}>
                 <div className="flex-shrink-0 mr-4 hidden sm:block">
                     <p className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest">Order Delivered ✓</p>
                     <p className="text-[12px] font-bold text-white">{cartCount} new item{cartCount > 1 ? 's' : ''} ready to order</p>
@@ -272,21 +274,21 @@ export function SubNavBar() {
 }
 
 // ─── Shared BarWrapper ───────────────────────────────────────────────────────
-function BarWrapper({ children }) {
+function BarWrapper({ children, compact }) {
     return (
         <motion.div
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed top-[88px] left-0 right-0 z-40"
+            className={`fixed left-0 right-0 z-40 origin-top ${compact ? 'top-[75px] scale-90 sm:scale-75 md:scale-90 origin-top' : 'top-[88px]'}`}
             style={{
                 background: 'rgba(15,15,22,0.92)',
                 backdropFilter: 'blur(16px)',
                 borderBottom: '1px solid rgba(255,255,255,0.07)',
             }}
         >
-            <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-2.5 flex items-center">
+            <div className={`max-w-[1400px] mx-auto px-4 md:px-12 flex items-center ${compact ? 'py-1.5' : 'py-2.5'}`}>
                 {children}
             </div>
         </motion.div>
